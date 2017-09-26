@@ -16,11 +16,11 @@ module.exports =
       $formatting = $downloader.find('[name=formatting]'),
       $preview = $downloader.find('[name=preview]');
 
-
   vm.asHTML       = asHTML;
   vm.asStyledHTML = asStyledHTML;
   vm.asMarkdown   = asMarkdown;
   vm.asPDF        = asPDF;
+  vm.asMediaWiki  = asMediaWiki;
 
   function initDownload(action, styled) {
 
@@ -33,6 +33,14 @@ module.exports =
     $formatting.val( styled );
 
     $downloader.submit();
+  }
+
+  function asMediaWiki() {
+    if (window.ga) {
+      var previewOrExport = ($attrs.diTarget === 'preview') ? 'Preview' : 'Export'
+      ga('send', 'event', 'click', previewOrExport + ' As MediaWiki', previewOrExport + ' As...')
+    }
+    initDownload( 'factory/fetch_mediawiki' );
   }
 
   function asHTML(styled) {
